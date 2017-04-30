@@ -136,6 +136,8 @@ def train(args):
             state = sess.run(model.initial_state)
             b = 1
             start = time.time()
+
+            data_loader.next_epoch()
             for x, y, word_lengths in data_loader.iterbatches('train'):
                 feed = {model.input_data: x, model.targets: y, model.word_len: word_lengths}
                 for i, (c, h) in enumerate(model.initial_state):
@@ -202,8 +204,6 @@ def train(args):
             if args.learning_rate < args.min_lr:
                 print("Minimum reached", args.learning_rate, "<", args.min_lr)
                 break
-
-            data_loader.file_number = 0
 
 
 if __name__ == '__main__':

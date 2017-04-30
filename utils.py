@@ -134,3 +134,7 @@ class TextLoader():
 
     def _reset_batch_pointer(self):
         self.pointer = 0
+
+    def next_epoch(self):
+        self._reset_batch_pointer()
+        self.file_number = 0
