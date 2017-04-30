@@ -11,7 +11,7 @@ from six.moves import cPickle
 import time
 
 class TextLoader():
-    def __init__(self, data_dir, batch_size, seq_length, encoding='utf-8', train_percentage=0.5):
+    def __init__(self, data_dir, batch_size, seq_length, encoding='utf-8', train_percentage=0.7):
         self.data_dir = data_dir
         self.batch_size = batch_size
         self.seq_length = seq_length
