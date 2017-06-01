@@ -18,7 +18,9 @@ def main():
     parser.add_argument('--save_dir', type=str, default='save',
                         help='model directory to store checkpointed models')
     parser.add_argument('--word', type=str, default=u'apfelbrothauskirche',
-                        help='Word for splitting')
+                        help='word for splitting')
+    parser.add_argument('--count', type=int, default=10,
+                        help='count of words for test')
     parser.add_argument('--device', type=str, default='/gpu:0',
                         help='device')
     args = parser.parse_args()
@@ -49,25 +51,24 @@ def sample(args):
 
             saver.restore(sess, ckpt.model_checkpoint_path)
             k = 0
-            count = 0
+            COUNT = 20
             random.seed()
-            randlist = np.zeros(10)
-            for i in range(10):
+            randlist = []
+            for i in range(args.count):
                 # need to switch 66206 to sum(1 for line in f)
-                randlist[i] = random.randint(0, 66206)
+                randlist.append(random.randint(0, 66206))
             with open('data/compounds.txt', encoding='utf-8') as f:
-                for line in f:
-                    if count in randlist:
-                        words = line.split('\t')
+                for i, line in enumerate(f):
+                    if i in randlist:
+                        words = line.split(' ')
                         words[-1] = words[-1][:-1]
-                        if not ' ' in words[0] and not '-' in words[0]:
-                            splitted = model.smash(sess, vocab, words[0].lower())
-                            print(splitted)
-                            print(words[1:])
-                            if same_prefix(splitted, words[1:]):
-                                k += 1
-                    count += 1
-            print(k / 10)
+                        # if not ' ' in words[0]:
+                        splitted = model.smash(sess, vocab, words[0].lower())
+                        print(splitted)
+                        print(words[1:])
+                        if same_prefix(splitted, words[1:]):
+                            k += 1
+            print(k / args.count)
 
     print(time.time() - timer, 'seconds for test')
 

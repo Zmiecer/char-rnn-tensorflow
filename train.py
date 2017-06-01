@@ -174,7 +174,7 @@ def train(args):
                 av_test_loss += test_loss
                 end = time.time()
                 print("{}/{} (file {}/{}, epoch {}/{}), test_loss = {:.3f}, time/batch = {:.3f}".format(
-                    t - data_loader.num_batches*(data_loader.file_number - data_loader.num_train_files + 1),
+                    t - data_loader.num_batches*(data_loader.file_number - data_loader.num_train_files),
                     data_loader.num_batches,
                     data_loader.file_number - data_loader.num_train_files - 1, data_loader.num_test_files - 1,
                     e, args.num_epochs - 1,
