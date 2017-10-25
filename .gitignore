@@ -97,3 +97,6 @@ vocab.pkl
 \.idea/
 
 test_loss\.txt
+
+# PyCharm files
+*.yml
